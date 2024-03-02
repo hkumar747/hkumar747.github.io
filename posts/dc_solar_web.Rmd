@@ -1,0 +1,459 @@
+---
+title: "cross_section_models"
+author: "hk939"
+date: "2024-02-26"
+output: 
+  html_document:
+    code-fold: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+
+# install packages
+library(arrow)
+library(tidyverse)
+library(tidycensus)
+library(sf)
+library(sandwich)
+library(viridis)  # for improved color scales
+library(car)
+library(lmtest)
+library(stargazer)
+library(broom)
+library(lme4)
+library(Matrix)
+library(lmtest)
+library(recipes)   # For preprocessing steps
+library(modeldata) # For data splitting
+library(caret)
+library(googledrive)
+library(kableExtra)
+
+
+```
+
+# Solar Adoption in DC
+
+Solar panels are currently XXX of the US market, with adoption low.
+
+Renewable Portfolio Standard (RPS) policies are designed to increase uptake of renewable energy.
+
+DC's RPS is one of the country's most ambitious, 
+
+Policy changes
+
+-	**Distributed Generation Amendment Act of 2011 (Oct 2011)**
+    -	shall not certify any tier one renewable source solar energy system larger than 5 MW in capacity or not in the District
+
+-	**Renewable Energy Portfolio Standard Amendment Act (Apr 2015)**
+    -	Biomass related
+
+-	**Renewable Portfolio Standard Expansion Amendment Act (Oct. 2016)**
+    - Raised RPS requirements
+    - Raised ACP trajectory
+
+-	**Clean Energy DC Omnibus Amendment Act ( March 2022)**
+    - Increased the solar RPS requirements to 5.5% by 2032 
+    - Increased ACP trajectory
+
+
+```{r, echo=FALSE}
+
+# inset chatCompletion
+# Create the data frame
+year <- 2011:2041
+tier_one_renewable_percent <- c(4, 5, 6.5, 8, 9.5, 11.5, 13.5, 15.5, 17.5, 20, 26.25, 32.5, 38.75, 45.0, 52.0, 59.0, 66.0, 73.0, 80.0, 87.0, 94.0, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100)
+solar_energy <- c(0.4, 0.5, 0.5, 0.6, 0.7, 0.825, 0.98, 1.15, 1.85, 2.175, 2.5, 2.6, 3.0, 3.65, 4.3, 5.0, 5.65, 6.3, 7.0, 7.65, 8.3, 9.0, 9.65, 10.3, 11.0, 11.65, 12.3, 13.0, 13.65, 14.3, 15.0)
+
+data <- data.frame(year, tier_one_renewable_percent, solar_energy)
+
+data$gap <- data$tier_one_renewable_percent-data$solar_energy
+
+# Assuming 'data' is your dataframe
+# Add a new column for the act labels
+data$Act <- NA  # Initialize with NA
+data$Act[data$year == 2011] <- "Distributed Generation Amendment Act of 2011"
+data$Act[data$year == 2016] <- "Renewable Portfolio Standard Expansion Amendment Act"
+data$Act[data$year == 2022] <- "Clean Energy DC Omnibus Amendment Act"
+
+# Now, plotting with enhancements and adding specific labels
+p <- ggplot(data, aes(x = year)) +
+  geom_line(aes(y = tier_one_renewable_percent, color = "Tier-One Renewable Percent"), size = 1) +
+  geom_area(aes(y = tier_one_renewable_percent), fill = "skyblue", alpha = 0.5) +
+  geom_line(aes(y = solar_energy, color = "Solar Energy"), size = 1) +
+  geom_area(aes(y = solar_energy), fill = "yellow", alpha = 0.5) +
+  geom_point(aes(y = tier_one_renewable_percent), color = "#0099f9", size = 2) +
+  geom_label(data = data %>% filter(!is.na(Act)), aes(y = tier_one_renewable_percent, label = Act), nudge_x = 0.25, nudge_y = 0.25, check_overlap = TRUE, size = 3, label.size = 0) +
+  scale_color_manual(values = c("Tier-One Renewable Percent" = "#1f77b4", "Solar Energy" = "yellow")) +
+  labs(x = "Year", y = "Percent / Energy", title = "Tier-One Renewable Percent and Solar Energy Over Time", color = "Metrics") +
+  theme_minimal() +
+  theme(legend.position = "top",
+        legend.title = element_text(size = 12),
+        legend.text = element_text(size = 10),
+        plot.title = element_text(size = 16, face = "bold"),
+        axis.title = element_text(size = 14),
+        plot.margin = margin(10, 10, 10, 10))
+
+# Print the plot
+print(p)
+
+
+```
+
+### What was the actual ratio in 2023?
+
+
+Consumption is given by PJM STATS CITE. DC generated just 23% of its electricity from solar in 2023.
+
+But there has been tremendous growth.
+
+```{r, echo=FALSE}
+
+# Fetch data for DC
+# Convert sf object to GeoJSON
+# st_write(joined_df, "solar_acs2019_bg.geojson", driver = "GeoJSON")
+
+library(gganimate)
+
+df_time <- read_csv('data/tot_solar_time.csv')
+
+#create the plot
+p <- ggplot(df_time, aes(x = date, y = cum_mw)) +
+  geom_line(aes(group = 1), color = "#1f77b4", size = 1.5) +  # Increase line thickness with `size`
+  geom_point( color = "#0099f9") + # Draw points
+  labs(x = "Year", y = "Capacity added (MW)", title = "Solar Boom in DC") +
+   theme(
+    text = element_text(color = "black"), # Make all text black
+    plot.title = element_text(size = 22, face = "bold", color = "black"), # Enlarge and bolden the title
+    axis.title = element_text(size = 16, face = "bold", color = "black"), # Bolden axis titles
+    axis.text = element_text(size = 12) # Adjust size of axis text if needed
+  ) + ggthemes::theme_solarized() 
+  # theme(legend.position = "none") # Hide the legend
+# Creating the plot with ggplot2
+
+# Animate the plot
+anim <- p + transition_reveal(date) + 
+  enter_grow() +  # Animation for entering points
+  exit_fade() +   # Animation for exiting points
+  ease_aes('cubic-in-out') + # Animation speed
+  labs(title = 'Year: {frame_along}', subtitle = "Tier-One Renewable Percent") # Update title with year
+
+# Render the animation
+animate(anim, duration = 10, fps = 30, width = 800, height = 600, renderer =gifski_renderer())
+
+# Save the animation
+# anim_save("dc_solar_anim.gif", animation = anim)
+
+
+# ts_data_ts <- ts(df_time %>% select(date, cum_mw))
+# 
+# library(strucchange)
+# bp <- breakpoints(ts_data_ts ~ 1)
+# 
+# plot(bp)
+# # Assuming ts_data is your time series data
+# cpt.mean <- cpt.mean(ts_data, method="PELT")
+# 
+#   # Plot the changes
+# plot(cpt.mean)
+# # Display the plot
+# # ggsave("renewable_energy_plot.png", width = 14, height = 7, dpi = 100)
+
+
+```
+
+
+## Sample `gganimate` code
+
+```{r, echo=TRUE, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+# Animate the plot
+anim <- p + transition_reveal(date) + 
+  enter_grow() +  # Animation for entering points
+  exit_fade() +   # Animation for exiting points
+  ease_aes('cubic-in-out') + # Animation speed
+  labs(title = 'Year: {frame_along}', subtitle = "Tier-One Renewable Percent") # Update title with year
+
+# Render the animation
+animate(anim, duration = 10, fps = 30, width = 800, height = 600, renderer =gifski_renderer())
+
+
+
+```
+
+
+## DC Open Data - Buildings and solar
+
+With the help of DC Open Data’s frequently updated and granular urban data on buildings, it is straightforward to combine these into the largest single-city datasets for almost all of DC’s 110,000 residential buildings. 
+- CAMA
+
+- DC Solar monthly
+
+- **Note**:
+Linking these two datasets is more complex than a single merge. The common thing is address, but CAMA doesn't have address directly. It has the Square Suffix Lot (SSL) number, which identifies the plot of land on which a building sits. Some lots have multiple buildings, and some buildings/complexes span multiple lots.
+
+We then have a dataset with the below outline
+
+```{r, echo=FALSE}
+
+
+## AUTHENTICATE Google DRIVE account
+# drive_auth()
+# 
+# 
+# # download this to local drive
+# drive_download(as_id("1Ho9fKEotF9B6aG85SpvpNPXEK1sV4_78"),
+#                path = "output_data/residential_cross_sec.parquet", overwrite = TRUE)
+
+df <- read_parquet('data/cross_sec_api_12k.parquet')
+df$cap_kw <- df$`Capacity (MW)`*1000
+
+df$lat <- df$LATITUDE
+df$lon <- df$LONGITUDE
+df <- df %>%
+  filter(!is.na(lat) & !is.na(lon) 
+         & lat != "NA" & lon != "NA") %>%
+  st_as_sf(coords = c("lon", "lat"), crs = 4326) %>%
+   mutate(cap_kw = replace_na(cap_kw, 0))
+
+
+# add census block group data
+###############
+
+quantile_99 <- quantile(df$cap_kw, 0.99, na.rm = TRUE)
+
+
+# Preparing subsets
+df_with_0 <- df %>% 
+  filter(cap_kw == 0) %>%
+  select(SSL, STYLE_D, ROOF_D, NBHDNAME, cap_kw, max_sun_hours, min_dc_kwh) %>%
+  sample_n(2)
+
+df_without_0 <- df %>%
+  filter(`Capacity (MW)` > 0 & `Capacity (MW)` <= quantile_99) %>%
+  select(SSL, STYLE_D, ROOF_D, NBHDNAME, cap_kw, max_sun_hours, min_dc_kwh)%>%
+  sample_n(3)
+
+# Combining the subsets
+df_sample <- bind_rows(df_with_0, df_without_0)
+
+# drop geom
+df_sample <- st_set_geometry(df_sample, NULL)
+
+#save
+df_sample <- df_sample %>% select(SSL, STYLE_D, ROOF_D, NBHDNAME, cap_kw, max_sun_hours, min_dc_kwh)
+
+# write_csv(df_sample, 'kable_tab.csv')
+# 
+# # Apply cell_spec to cap_mw for dynamic coloring
+df_sample$cap_kw <- cell_spec(df_sample$cap_kw, "html",
+                              color = "white",
+                              bold = TRUE,
+                              background = spec_color(df_sample$cap_kw, end = 0.9, option = "A"))
+
+# Generating the table
+knitr::kable(df_sample, "html", escape = FALSE) %>%
+  kable_styling(full_width = F, fixed_thead=TRUE,
+                bootstrap_options = c("striped", "hover"))
+
+
+```
+
+
+Why is this interesting? If you look at this CITE PAPER - ML can reduce 'SOFT COSTS'
+
+## The DC Solar Market
+
+How much does it cost to install a solar panel on average? 
+Installation cost = $13,000
+
+In a centrally planned economy, the DC Mayor could issue an edict, and armies of government workers would install a solar panel on each roof, and the goal would be met within a week. However, that is not how a free-market democracy works, and we would 
+
+A household in DC can factor in four types of incentives available for a solar installation :
+
+-	**Federal rebate**
+-	**SREC**
+
+::: {.callout-tip}
+## Tip with Title
+This is an example of a callout with a title.
+:::
+
+-	**Net metering**
+
+There is another type of indirect incentive, which might function as a 'stick' to the above 'carrots'. This is the **Building Energy Benchmarking Policy (BEPS)**, which aims to identify and impose financial penalties on large buildings (>10,000 sq feet) with greater than average energy consumption
+
+Two studies have been conducted on the state of solar adoption in Washington DC, by Synapse Energy Economics in 2019 and 2022.
+
+The second study lays out the factors which hinder higher adoption in DC.
+
+- Renters (less than 30% single-family owner-occupied housing) 
+- Rising ACPs - People will anticipate higher compensation in future, and may delay purchases.
+- Electricity prices: Higher electricity and enery prices, or basically that increases energy expenditure will lead people to 
+
+The shortfall between SREC supply and RPS requirement gives the revenues to DC DOEE
+
+CITE PAPER - SREC protectionism did increase adoption
+
+## Get census data using `tidyCensus`
+
+```{r, echo=TRUE, eval=FALSE}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+st_acs <- get_acs(variables = c(total_pop = "B02001_001E", 
+                                  owner_occupied = "B25003_002E",
+                                  total_occupied = "B25003_001E"),
+                    geography = "block group",
+                    geometry = TRUE,
+                    state = "DC", 
+                    year = 2019) 
+```
+
+### Aggregate solar data to the block group level
+
+What does data from the American Community Survey tell us, about what these 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results=FALSE}
+
+bg_df <- st_read("data/solar_acs2019_bg.geojson")
+
+# Perform a spatial join: add data from bg_df to df_sample based on their spatial relationship
+# zip_data <- zip_data %>%  st_make_valid()
+# joined_sf <- st_join(zip_data, bg_df, join = st_contains)
+
+# Improved plot for polygon sf object
+# basic_plot <- ggplot(data = bg_df) +
+#   geom_sf(aes(fill = total_capacity), color = "black", size = 0.2) +  # Fill polygons and add borders
+#   scale_fill_viridis(option = "C", direction = -1) +  # Viridis color scale
+#   labs(
+#     title = "Per Capita Solar Capacity",
+#     fill = "Per Capita kW",
+#     caption = "Data Source: ACS 2019, DCPSC 2023"
+#   ) +
+#   theme_minimal() +
+#   theme(
+#     legend.position = "right",
+#     plot.title = element_text(hjust = 0.5),  # Center the plot title
+#     plot.caption = element_text(hjust = 0, size = 8)  # Align caption
+#   )
+# 
+# basic_plot
+# 
+# model_1 <- lm(pc_capkw ~ own_rate, data = bg_df)
+# # Calculate robust standard errors
+# # robust_se1 <- vcovHC(model_1, type = "HC1")
+# # robust_se1 <- as.vector(coeftest(model_1, vcovHC(model_1, type = "HC1"))[, "Std. Error"])
+# -
+# Assuming 'joined_sf' is your dataframe with 'own_rate' and 'tot_capkw' variables.
+
+# Create 10 quantiles of ownership rate
+bg_df <- bg_df %>%
+  mutate(quantile = ntile(own_rate, 20))
+
+# Compute the mean of 'tot_capkw' within each quantile
+quantile_avgs <- bg_df %>%
+  group_by(quantile) %>%
+  summarise(tot_cap = sum(total_capacity),
+            tot_pop = sum(total_pop)) %>%
+  mutate(cap_kw_pc = tot_cap/tot_pop)
+
+###########################################################
+# Plot the averages as points
+ggplot(quantile_avgs, aes(x = as.factor(quantile), y = cap_kw_pc)) +
+  geom_point(aes(color = as.factor(quantile)), size = 3) +
+  geom_smooth(aes(x = as.numeric(as.factor(quantile))), method = "lm", formula = y ~ x, se = TRUE, color = "blue") +
+  labs(x = "Ownership Rate Quantile", y = "Average Total Capacity (KW)", title = "Average Total Capacity by Ownership Rate Quantiles") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, 
+                                   vjust = 0.5, 
+                                   hjust=1),
+        legend.position = "none")
+
+# Note: Replace 'joined_sf' with your actual dataframe name.
+###########################################################
+
+```
+
+
+## Ownership correlates with solar adoption.
+
+## TODO map layer different
+
+# Building level maps
+
+The following shows a simple
+
+```{r, echo=FALSE}
+library(leaflet)
+library(RColorBrewer)
+
+ward_data <- readRDS("data/ward_solar.rds")
+zip_data <- readRDS("data/zipcode_solar.rds")
+solar_build <- readRDS("data/solar_build.rds")
+
+data <- zip_data
+# Replace "ward" with "zipcode" as needed
+spatialLevel <- "ward" # or "zipcode"
+
+# Check the spatial level and generate the map accordingly
+pal <- colorNumeric(palette = "YlOrRd", domain = data$total_capacity_mw)
+  
+# map <- leaflet(zip_data) %>%
+#     addProviderTiles(providers$CartoDB.Positron) %>%
+#     addPolygons(
+#       layerId = ~NAME,
+#       fillColor = ~pal(total_capacity_mw),
+#       color = "#444444",
+#       weight = 1,
+#       smoothFactor = 0.5,
+#       popup = ~paste("Zip/Ward:", NAME,
+#                      "<br>Total Capacity MW:", total_capacity_mw,
+#                      "<br>Percentage Solar:", perc_solar),
+#       highlightOptions = highlightOptions(weight = 2, 
+#                                           color = "white",
+#                                           bringToFront = TRUE))
+
+# print(map)
+
+########################################################3
+## building
+
+spatialLevel <- "build" # or "zipcode"
+
+# Check the spatial level and generate the map accordingly
+pal <- colorNumeric(palette = "YlOrRd", domain = solar_build$`Capacity (MW)`)
+  
+map <- leaflet(solar_build) %>%
+    addProviderTiles(providers$CartoDB.Positron) %>%
+    addPolygons(
+      layerId = ~Number,
+      fillColor = ~pal(`Capacity (MW)`),
+      color = "#444444",
+      weight = 1,
+      smoothFactor = 0.5,
+      popup = ~paste("Address", `Facility Address`,
+                     "<br>Total Capacity MW:", `Capacity (MW)`
+                     # "<br>Percentage Solar:",
+                     ),
+      highlightOptions = highlightOptions(weight = 2, color = "white", bringToFront = TRUE)) %>%
+    setView(lng = -77.0164, lat = 38.9047, zoom = 12)  # Set initial view; adjust coordinates and zoom as needed
+
+# Add a mini-map
+map %>% addMiniMap(tiles = providers$CartoDB.Positron,
+                   toggleDisplay = TRUE,
+                   position = "bottomright")
+
+print(map)
+
+
+```
+
+
+
+
+## Check out this in-progress dashboard here!
+

@@ -1,0 +1,23 @@
+{
+  "about.qmd": {
+    "about.html": "9c1867ff"
+  },
+  "index.qmd": {
+    "index.html": "14e11e48"
+  },
+  "portfolio.qmd": {
+    "portfolio.html": "19be0771"
+  },
+  "docs/posts/dc_solar_web.rmd": {
+    "dc_solar_web.html": "cb5e326e"
+  },
+  "posts/dc_solar_web.Rmd": {
+    "dc_solar_web.html": "47499f06"
+  },
+  "posts/Optimization_Kentucky_retrofit.qmd": {
+    "Optimization_Kentucky_retrofit.html": "46dcd033"
+  },
+  "research.qmd": {
+    "research.html": "2dc1a915"
+  }
+}

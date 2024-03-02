@@ -1,0 +1,18 @@
+---
+title: "test-web"
+---
+
+This is a Quarto website.
+
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+
+Quick start:
+
+
+Check out my portfolio projects here:
+
+
+Check out my publications here:
+
+
+Github is here:

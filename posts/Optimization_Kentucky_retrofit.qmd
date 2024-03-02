@@ -1,0 +1,323 @@
+---
+title: BlocPower Report
+author:
+  - name: EIDC
+    affiliations:
+      - name: Georgetown University
+date: '`r Sys.Date()`'
+format:
+  html:
+    toc: true
+    embed-resources: true
+    theme: default
+    code-copy: true
+    code-fold: true
+    code-line-numbers: true
+    number-sections: true
+    highlight-style: github
+    page-layout: full
+jupyter: python3
+---
+
+```{python}
+import time
+import warnings
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import folium
+import zipfile
+from h3 import h3
+from scipy.linalg import toeplitz
+from scipy.stats import pearsonr
+from sklearn.preprocessing import MinMaxScaler
+from shapely.geometry import Point, Polygon
+from shapely import wkt, affinity
+from shapely.wkt import loads
+from branca.colormap import linear
+from IPython.core.interactiveshell import InteractiveShell
+from h3 import h3
+
+from shapely import wkt
+import os
+import geopandas as gpd
+import folium
+
+import contextily as cx
+
+from shapely.geometry import Point
+# Set interactivity to all
+```
+
+Set up Gurobi license
+
+https://www.gurobi.com/documentation/9.5/quickstart_windows/reading_and_optimizing_a_m.html
+
+
+
+# Optimization of building energy efficiency interventions using BlocPower data
+
+## Introduction
+Building decarbonization is a critical component of the multiple transitions needed to combat climate change. The Inflation Reduction Act of 2022 provides unprecedented incentives for households to install home improvements for electrification and energy efficiency, like installing heat pumps instead of fossil-fuel powered heaters and weatherization/insulation (https://www.nytimes.com/interactive/2023/climate/tax-breaks-inflation-reduction-act.html)
+
+These efforts have been aided by technological advances in the form of fine-grained building-level data, recently available at nationwide scale. One such dataset - developed by BlocPower - uses data on building type and equipment (single -family/multi-family, heating and cooling systems) sourced from tax assessment records. It then uses them as inputs for energy modeling algorithms/software developed by the Department of Energy. Crucially, this allows estimation of counterfactuals, i.e. the reduction in energy usage that would result from targeted retrofits. BlocPower’s own core operation takes building data for a city, uses their proprietary algorithm to estimate the ideal intervention, potential cost of a retrofit, and projected reduction in energy use (it also provides financing options).
+
+Finance is the key variable in these ambitious transition plans. Many of the new policies provide incentives like tax credits and rebates, instead of direct transfers to finance retrofits. However, it is useful to get an estimate of the total cost required to achieve a specified reduction in energy use and emissions from buildings. (This is also useful where governments are spending money directly to decarbonize their own building portfolios). https://www.whitehouse.gov/briefing-room/statements-releases/2022/12/07/fact-sheet-biden-harris-administration-announces-first-ever-federal-building-performance-standard-catalyzes-american-innovation-to-lower-energy-costs-save-taxpayer-dollars-and-cut-emissions/
+
+The set of possible interventions for each building can consist of:
+
+Weatherization
+Energy efficiency retrofits/electrification
+Rooftop solar
+Linear programming formulation
+Despite some differences in these particular interventions, the basic structure requires an upfront cost to be spent on a building, after which its energy usage will go down by some factor (i.e. there will be energy savings). For our current purpose, let weatherization be the only building intervention we consider. We abstract away the exact financing mechanisms included in the IRA and BIL (rebates and incentives), and assume that the local government has a fixed budget to allocate for weatherizing buildings. The objective is to maximize energy savings - or equivalently, reduce emissions - subject to the constraint that the total cost cannot be larger than the budget. For this, we need recommendations of which buildings to target.
+
+Linear programming is a well-established mathematical tool used for policy purposes, starting from optimizing military logistics during WW2 to optimizing the energy source mixture (see appendix). This problem formulation fits well with a linear programming framework. Specifically, this is an example of a Mixed-Integer Programming (MIP) problem, as the solution must be an integer (we can't weatherize 3.6 buildings).
+
+Read in geocoded building data (Madisonville, KY)¶
+
+```{python}
+# # # Load data blocpower
+# # zipdf = pd.read_csv("Merged_CJEST.csv")
+
+# # mic = pd.read_csv("Microsoft_Building_zip.csv")
+# # ########################################################################
+
+# # mic['zcta'] = mic['zcta'].astype(str)
+
+# # zipdf['zipcode'] = zipdf['zipcode'].astype(str)
+# # zipdf = zipdf.merge(mic, how='left', left_on='zipcode', right_on='zcta')
+
+# # # Load the shapefile of zipcodes from the US Census Bureau website
+# # tiger_shp_url = 'https://www2.census.gov/geo/tiger/TIGER2022/ZCTA520/tl_2022_us_zcta520.zip'
+# # zip_shp = gpd.read_file(tiger_shp_url)
+# # # no state column in 2022 file
+
+
+# # # Rename the ZIP code column to "zip" and select the "zip" and "geometry" columns
+# # zip_shp = zip_shp.rename(columns={"GEOID": "zip_code",
+# #                                   "geometry": "zip_geom"})
+# # # zip_shp = zip_shp[['zip_name', 'zip_fips', 'geometry']]
+
+# # zip_shp['zcta_shp'] = zip_shp.ZCTA5CE20.astype(str)
+# # zipdf['zcta_bp'] = zipdf.zipcode.astype(str)
+
+
+# # zip_shp = zip_shp.merge(zipdf, how='left', left_on='zcta_shp', right_on='zcta_bp')
+
+# # zip_shp = zip_shp[~(zip_shp.state_code.isin(['AK', 'HI']))]
+
+# # #zip_shp = gpd.GeoDataFrame(zip_shp, geometry='zip_geom', crs='epsg:4326')
+
+# # zip_shp.to_csv(r'C:\Users\HK\Downloads\Final_Report\Final_Report\cejst_bp_zip_shp.csv')
+
+
+# zipdf = pd.read_csv('cejst_bp_zip_shp.csv')
+
+# zipdf['zip_geom'] = zipdf['zip_geom'].apply(wkt.loads)
+# zipdf = gpd.GeoDataFrame(zipdf, geometry = zipdf['zip_geom'], crs='epsg:4326')
+# zipdf = zipdf.round(2)
+
+
+# # Load the shapefile of counties from the US Census Bureau 
+# state_url = 'https://www2.census.gov/geo/tiger/TIGER2022/STATE/tl_2022_us_state.zip'
+# st_shp = gpd.read_file(state_url)
+# statedf = pd.read_csv('state_shp.csv')
+# st_shp = st_shp.merge(statedf, left_on='STUSPS', right_on='num_state', how='inner')
+```
+
+## Interactive plotly map in Quarto
+
+https://quarto.org/docs/interactive/widgets/jupyter.html
+
+# 1.  Introduction
+
+
+## 1.1 Current Policy Context 
+
+https://www.bloomberg.com/news/articles/2023-05-11/biden-adopts-new-green-building-energy-standards-for-housing
+
+## 1.2 Related literature and data
+
+Over the past year, the Environmental Impact Data Collaborative has partnered with BlocPower - a Brooklyn-based climate technology company that uses building-level energy use data to guide community decarbonization projects. A key element of this partnership has been EIDC’s role in helping make BlocPower’s data available to researchers in the  environmental justice space.
+
+BlocPower uploaded 3,309 data points for more than 121 million buildings to EIDC. This data is stored in Amazon Web Services and was transferred to Redivis using the built-in RestAPI. Additionally, this process occurred in two phases: first, BlocPower uploaded data for 39 states in January 2023, and second, they uploaded data for the additional 11 states and Washington D.C. in April 2023. This was ingested on MDI EIDC’s Google Cloud storage.
+
+[Sources]
+
+The source of this data is tax assessment records, which provide real data on building system types and attributes (like built year and area). This data then serves as inputs to an Automatic Building Energy Modeling (AutoBEM) developed by Oak Ridge National Laboratory
+
+
+RECS
+
+## 1.3 Data Availability - Kentucky
+
+```{python}
+
+# Specify the path to your zip file and the extraction directory
+zip_path = "data/geocoded_kentucky_zip_buildings.zip"
+
+# Specify the csv file name if known; otherwise, you can list contents and choose
+csv_file_name = "geocoded_kentucky_zip_buildings.csv"
+
+# Use zipfile to extract
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    # If you know the name of the csv file you can extract it directly
+    zip_ref.extract(csv_file_name)
+
+df = pd.read_csv(r"geocoded_kentucky_zip_buildings.csv")  # Reference any table in this project
+
+# df.to_parquet(r'D:\Work\Georgetown\acad\mdi\final_portfolio\blocpower-building-energy\ky_buildings.parquet')
+```
+
+```{python}
+
+test = df[['geocoded', 'building_id' , 'building_type' , 'heating_fuel_type', 'total_site_energy_GJ',
+            "address", "area_sq_ft", "energy_use_intensity"]]
+
+test = test[test['heating_fuel_type'] != 'Unknown']
+test = test.dropna(subset=['heating_fuel_type'])
+#test = test.sample(frac=0.8).reset_index()
+test['geocoded'] = test['geocoded'].str.replace('(','').str.replace(')','') # Remove parentheses
+test[['lat', 'lon']] = test['geocoded'].str.split(',', expand=True)
+test['lat'] = test['lat'].astype(float)
+test['lon'] = test['lon'].astype(float)
+
+# Convert latitude and longitude to a point
+test['geometry'] = test.apply(lambda row: Point(row.lon, row.lat), axis=1)
+```
+
+# Model 1: Basic
+## Model Formulation
+
+- **Google Doc**: [Google Doc Link](https://docs.google.com/document/d/1JikyyMgS6zkjCQZMJQrtv8sU_ut1Uf0n8xkclPbHVg8/edit)
+- **Paper**: [ScienceDirect Paper Link](https://www.sciencedirect.com/science/article/pii/S0306261922010510)
+
+### Sets and Indices
+- $i \in T$: Index and set of potential buildings to weatherize.
+
+### Parameters
+- $c_i \in \mathbb{R}_+$: The cost of weatherizing building $i$.
+- $e_i \in \mathbb{R}_+$: The energy use of building $i$.
+
+### Decision Variables
+- $w_i \in [0,1]$: This variable is equal to 1 if building $i$ is weatherized; and 0 otherwise.
+
+### Objective Function
+- **Energy savings**: We seek to maximize the total energy savings from all buildings.
+  - Maximize 
+  $Z = \sum_{i \in T} e_i \cdot w_i$` $(1)$
+
+### Constraints
+- **Budget**: We need to ensure that the total cost of interventions does not exceed the allocated budget.
+  - $\sum_{i \in T} c_i \cdot w_i \leq \text{budget}$ $(2)$
+  - Budget = USD 3,000,000
+
+### Parameters
+- **Costs**: The complication is that the cost $c_i$ and energy savings $e_i$ is different for each building, based on the chosen intervention and the building's own characteristics. Installing a heat pump or weatherizing in a gas-heating building of 6,000 sq. ft. would have a different cost from installing the same equipment in an oil-heating building of 3,000 sq. ft. Depending on local labor and material costs, even the exact same project on comparable buildings would have different costs in Wichita and Ithaca.
+
+#### Industry experts have the following input:
+
+- Engie: 'Because of the wide variations, a heuristic approach is probably the best you can do.'
+- BlocPower: 'The cost estimation is a process which requires local data, personnel hours and itself has an expense associated with it'
+
+### Energy savings:
+- The original paper by Heleno et al (2022) seems to use a heuristic approach, by calculating cost and savings factors from the Weatherization Assistance Program (WAP) for different types of building archetypes. [ScienceDirect Paper Link](https://www.sciencedirect.com/science/article/pii/S0306261922010510)
+
+For this current example, we assume the following factors. So, weatherizing a gas-heated building reduces energy use by 4% and costs 2000 USD.
+
+#### Energy savings factors:
+- Gas Buildings = 0.96
+- Oil Buildings = 0.98
+
+#### Cost:
+- Gas buildings = 2000
+- Oil Buildings = 3000
+
+Multiply the above factors with the cost and energy columns to obtain 2 new columns per building, `$e_i$` (energy savings after weatherization) and `$c_i$` (cost of weatherization).
+
+
+https://www.sciencedirect.com/science/article/pii/S0306261922010510
+
+Energy savings achieved: 61656.41 GJ
+Cost of intervention: USD 3000000
+Buildings weatherized: 1442
+Visualize recommendations on map
+
+```{python}
+
+# gdf = gdf.round(2)
+# # merge to optimized dataframe
+# gdf = gdf.merge(test, left_on='building_id', right_on='building_id', how='inner')
+
+# Convert the DataFrame to a GeoDataFrame
+gdf = gpd.GeoDataFrame(test, geometry='geometry', crs='epsg:4326')
+
+# create retrofit column
+# gdf['Retrofit?'] = gdf['opt'].apply(lambda x: 'YES' if x == 1 else 'NO')
+
+#round energy savings column
+# gdf['energy_savings'] = gdf['energy_savings'].round(3)
+
+m1 = gdf.explore("energy_use_intensity", #tooltip=False, #categorical=True, 
+                 tooltip=["address", "area_sq_ft", "energy_use_intensity",
+                        "building_type", "heating_fuel_type"])
+
+ # Set `preferCanvas` to optimize performance of map
+m1.options["preferCanvas"] = True
+
+#set a tile layer - OSM
+folium.TileLayer("OpenStreetMap").add_to(m1)
+m1
+```
+
+```{python}
+m1.save
+```
+
+## H3
+
+```{python}
+from h3 import h3
+
+
+def update_map(h3_level=10):
+    def lat_lng_to_h3(row):
+        return h3.geo_to_h3(row.geometry.y, row.geometry.x, h3_level)
+
+    gdf['h3'] = gdf.apply(lat_lng_to_h3, axis=1)
+
+    counts = gdf[gdf['energy_use_intensity'] > np.median(gdf['energy_use_intensity'])].groupby('h3').size().reset_index(name='count')
+    
+    def add_geometry(row):
+        points = h3.h3_to_geo_boundary(row['h3'], True)
+        return Polygon(points)
+
+    counts['geometry'] = counts.apply(add_geometry, axis=1)
+    ky_hex = gpd.GeoDataFrame(counts, geometry='geometry', crs='EPSG:4326')
+
+    m = folium.Map(location=[37.3, -87.56], zoom_start=12)
+
+    colormap = linear.YlOrRd_09.scale(ky_hex['count'].min(), ky_hex['count'].max())
+
+    folium.GeoJson(
+        ky_hex,
+        name='geojson',
+        style_function=lambda feature: {
+            'fillColor': colormap(feature['properties']['count']),
+            'color': 'black',
+            'weight': .8,
+            'fillOpacity': 0.7,
+        },
+        tooltip=folium.GeoJsonTooltip(fields=['count'])
+    ).add_to(m)
+
+    colormap.add_to(m)
+
+    return m
+
+update_map(h3_level=9)
+```
+
