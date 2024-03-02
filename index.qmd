@@ -2,17 +2,24 @@
 title: "test-web"
 ---
 
-This is a Quarto website.
+## Bio
+I am a economist/data scientist with research interests in explainable machine learning, energy and development
+I am completing a MS in Data Science and Public Policy from Georgetown University, and I have a M.Phil in Economics from 
+Centre for Development Studies, where my thesis focused on urban infrastructure growth and its effects on the knowledge economy in India.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+I currently work as a graduate research assistant at the Massive Data Institute.
 
-Quick start:
+Check out the following links:
+
+- **Resume**
+
+- **Portfolio**
+
+- **Publications**
 
 
-Check out my portfolio projects here:
+Contact Information
 
+Email: hk939@georgetown.edu
 
-Check out my publications here:
-
-
-Github is here:
+Github: 

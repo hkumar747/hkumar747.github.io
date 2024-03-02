@@ -46,7 +46,7 @@
     "href": "index.html",
     "title": "test-web",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\nQuick start:\nCheck out my portfolio projects here:\nCheck out my publications here:\nGithub is here:"
+    "text": "I am a economist/data scientist with research interests in explainable machine learning, energy and development I am completing a MS in Data Science and Public Policy from Georgetown University, and I have a M.Phil in Economics from Centre for Development Studies, where my thesis focused on urban infrastructure growth and its effects on the knowledge economy in India.\nI currently work as a graduate research assistant at the Massive Data Institute.\nCheck out the following links:\n\nResume\nPortfolio\nPublications\n\nContact Information\nEmail: hk939@georgetown.edu\nGithub:"
   },
   {
     "objectID": "about.html",
@@ -131,5 +131,12 @@
     "title": "cross_section_models",
     "section": "",
     "text": "Show the code\n# Animate the plot\nanim &lt;- p + transition_reveal(date) + \n  enter_grow() +  # Animation for entering points\n  exit_fade() +   # Animation for exiting points\n  ease_aes('cubic-in-out') + # Animation speed\n  labs(title = 'Year: {frame_along}', subtitle = \"Tier-One Renewable Percent\") # Update title with year\n\n# Render the animation\nanimate(anim, duration = 10, fps = 30, width = 800, height = 600, renderer =gifski_renderer())"
+  },
+  {
+    "objectID": "index.html#bio",
+    "href": "index.html#bio",
+    "title": "test-web",
+    "section": "",
+    "text": "I am a economist/data scientist with research interests in explainable machine learning, energy and development I am completing a MS in Data Science and Public Policy from Georgetown University, and I have a M.Phil in Economics from Centre for Development Studies, where my thesis focused on urban infrastructure growth and its effects on the knowledge economy in India.\nI currently work as a graduate research assistant at the Massive Data Institute.\nCheck out the following links:\n\nResume\nPortfolio\nPublications\n\nContact Information\nEmail: hk939@georgetown.edu\nGithub:"
   }
 ]
