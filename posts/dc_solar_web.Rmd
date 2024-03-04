@@ -62,8 +62,10 @@ Each SREC certifies that one megawatt-hour of solar electricity has been generat
 - **ACP:** Penalties that electric utilities or other entities must pay if they fail to meet their renewable energy targets, specifically the portion of those targets that must be met through solar energy. 
 :::
 
+There have been several major policy changes in DC that affect solar adoption incentives, as summarized in this RPS report
+ by the DC Public Service Commission (https://dcpsc.org/Orders-and-Regulations/PSC-Reports-to-the-DC-Council/Renewable-Energy-Portfolio-Standard.aspx)
 
-There have been several major policy changes in DC that affect solar adoption incentives, as summarized in this RPS report by the DC Public Service Commission (https://dcpsc.org/Orders-and-Regulations/PSC-Reports-to-the-DC-Council/Renewable-Energy-Portfolio-Standard.aspx)
+
 -	**Distributed Generation Amendment Act, 2011**
     -	Amended RPS to increase solar requirements through 2023 to 2.5%.
     - Restricted eligible solar energy resources to those within the District or connected to a feeder serving the District.
@@ -127,7 +129,8 @@ print(p)
 ```
 
 
-### Solar capacity installed has skyrocketed in DC. 
+### Installed solar capacity has skyrocketed in DC. 
+
 Existing empirical evidence finds that US states that closed off their SREC markets to out-of-state facilites witnessed higher
 solar installation, as DC did in 2011. [(Cohen et al 2022)](https://doi.org/10.1111/ajae.12248)
 
@@ -205,15 +208,14 @@ animate(anim, duration = 10, fps = 30, width = 600, height = 400, renderer =gifs
 ```
 
 
-Measuring actual generation or consumption, as opposed to capacity installed, is trickier.
+Measuring *actual generation*, as opposed to capacity installed, is trickier.
 In 2022, the total retail electricity sales reported by suppliers in the District were 10.16 million MWh. 
 To put this in perspective, Hawaii's consumption in 2022 was around 9 million MWh, despite 
 being 60 times larger in area and with 2x the population! ([EIA 2022](https://www.eia.gov/electricity/state/))
 
 "The total number of SRECs retired for compliance was 263,919, which is equivalent to nearly 264,000 MWh and 
-represents about 2.6% of the total retail electricity sales for the year"​​. CITE 'DC PSC report'
-Of course, SRECs can be held before they are cashed - it indicates that by this date, there has
-been *at least* 264,000 MWh generation of solar. 
+represents about 2.6% of the total retail electricity sales for the year"​​. [(DC Public Service Commission, 2023)](https://dcpsc.org/Utility-Information/Electric/RPS/Renewable-Energy-Portfolio-Standard-Program/Monthly-Update-of-Solar-Generator-Certification.aspx_)
+Of course, SRECs can be held before they are cashed - it indicates that by this date, there has been *at least* 264,000 MWh generation of solar. 
 
 
 ## The DC Solar Market - Incentives and Costs
@@ -329,7 +331,16 @@ knitr::kable(df_sample, "html", escape = FALSE) %>%
 ```
 
 
-The fields `max_sun_hours` is the maximum hours of sunlight the building receives in a year, obtained from the Google Solar API.
+
+Two variables have been called from the [Google Solar API](https://developers.google.com/maps/documentation/solar/reference/rest/v1/buildingInsights/findClosest) for these building locations:
+
+- `max_sun_hours`: Maximum number of sunshine hours received per year, by any point on the roof
+
+- `min_dc_kwh`: How much sunlight energy the roof captures in DC kWh, assuming a certain minimum number of panels. (This is a transformed variable)
+
+
+
+
 
 ## Using Census data to check the home-ownership hypothesis
 

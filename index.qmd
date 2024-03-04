@@ -3,14 +3,15 @@ title: "Kumar H"
 ---
 
 ## Bio
-I am a economist/data scientist with research interests in explainable machine learning, energy and development
-I am completing a MS in Data Science and Public Policy from Georgetown University, where I currently work as a graduate research assistant at the 
-[Massive Data Institute](https://mdi.georgetown.edu/), where my research interests and experience are focused 
+I am a data scientist with experience in economics and policy research.
+
+As of Spring 2024, I am graduating with a MS in Data Science and Public Policy from Georgetown University, Washington DC; where I currently work as a graduate research assistant at the 
+[Massive Data Institute](https://mdi.georgetown.edu/). My research interests and project experience are focused 
 on energy, climate and the application of deep learning and Large Language Models (LLMs) to policy issues.
 
-Prior to this, I have an M.Phil in Economics from the Center for Development Studies, India, and experience working with economists in Education
-and Covid policy.
+**Jan 2024**: Check out the [Wetland Impact Tracker](https://climateprogramportal.org/wetlands-impact-tracker/) we designed in collaboration with Atlas Public Policy and EPIC!
 
+Check out my portfolio and research projects on the other pages. [This site is currently under improvement, and more information will be added.]
 
 
 ## Contact Information

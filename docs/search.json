@@ -7,18 +7,11 @@
     "text": "As a quantitative researcher and data analyst, I have collaborated with economists and policy researchers to author - and provide research assistance for - working papers and publications peer-reviewed journals."
   },
   {
-    "objectID": "research.html#indian-state-level-policy-responses-to-covid-19-during-the-second-wave",
-    "href": "research.html#indian-state-level-policy-responses-to-covid-19-during-the-second-wave",
+    "objectID": "research.html#co-authored",
+    "href": "research.html#co-authored",
     "title": "Research",
-    "section": "INDIAN STATE-LEVEL POLICY RESPONSES TO COVID-19 DURING THE SECOND WAVE",
-    "text": "INDIAN STATE-LEVEL POLICY RESPONSES TO COVID-19 DURING THE SECOND WAVE\n“This paper tracks the evolution of the Indian government policy response to the coronavirus pandemic from January 2021 to September 2022… for Indian sub-national jurisdictions.”\n\n\n\nImage Description"
-  },
-  {
-    "objectID": "research.html#the-effects-of-state-and-central-covid-19-responses-on-mobility-in-india",
-    "href": "research.html#the-effects-of-state-and-central-covid-19-responses-on-mobility-in-india",
-    "title": "Research",
-    "section": "The Effects of State and Central COVID-19 Responses on Mobility in India",
-    "text": "The Effects of State and Central COVID-19 Responses on Mobility in India\nPart of the Nature Covid-19 Public Health Emergency collection, hosted as part of the National Library of Medicine."
+    "section": "Co-Authored",
+    "text": "Co-Authored\n\nIndian state-level policy responses to Covid-19 during the second wave\nNagesh, R., Nataraj, M., Kumar, H., Hale, T., Petherick, A., & Phillips, T. (2022). Blavatnik School of Government Working Paper, University of Oxford (BSG-WP-2022/049)\n“This paper tracks the evolution of the Indian government policy response to the coronavirus pandemic from January 2021 to September 2022… for Indian sub-national jurisdictions.”\n\n\n\nCase-stringency plot\n\n\n\n\nThe Effects of State and Central COVID-19 Responses on Mobility in India\nKumar H, Nataraj M, Kundu S. (2022) Eur J Dev Res. 2022;34(5):2463-2492.\nPart of the Nature Covid-19 Public Health Emergency collection, hosted as part of the National Library of Medicine."
   },
   {
     "objectID": "research.html#research-assistance",
@@ -32,63 +25,63 @@
     "href": "posts/dc_solar_web.html",
     "title": "Rooftop solar adoption in Washington DC",
     "section": "",
-    "text": "As of 2022, solar energy provided about 3.4% of total U.S. utility-scale electricity (U.S. Energy Information Administration, 2024) Among US cities, Honolulu tops the chart, with per capita solar photovoltaic (PV) capacity installed at 1133 Watts DC/person in 2022. Washington DC was at 10th rank by 2022 (leaping up from 17th in 2018.) (Frontier Group, 2022)\nThe most likely reason behind this boost was DC’s Renewable Portfolio Standards (RPS) policies. RPS policies are regulatory mandates to increase the production of energy from renewable sources, requiring electric utilities to ensure that a specified percentage of the energy they generate or sell comes from renewable sources by a certain date. Despite the lack of a comprehensive federal RPS, state-level mandates have collectively contributed to a significant increase in the country’s renewable energy capacity, transforming the energy landscape and paving the way for a more sustainable future.\nDC’s RPS is one of the country’s most ambitious, as underscored by the Clean Energy DC Omnibus Amendment Act of 2018. This act mandates that 100 percent of the District’s electric supply be sourced from renewable generators by 2032. Additionally, it sets forth a solar “carve-out” requirement that 5.5 percent of the 2032 electric supply must come from in-District solar, with this percentage increasing to 10 percent by 2041. This places the District as the third jurisdiction in the U.S., following Hawai’i and California, to establish a 100 percent renewable energy requirement.\nThe primary mechanism by which the DC Department of Energy and Environment (DOEE) influences the solar market is through Solar Renewable Energy Credits (SRECs) and Alternative Compliance Payments (ACP).\nThere have been several major policy changes in DC that affect solar adoption incentives, as summarized in this RPS report by the DC Public Service Commission (https://dcpsc.org/Orders-and-Regulations/PSC-Reports-to-the-DC-Council/Renewable-Energy-Portfolio-Standard.aspx) - Distributed Generation Amendment Act, 2011 - Amended RPS to increase solar requirements through 2023 to 2.5%. - Restricted eligible solar energy resources to those within the District or connected to a feeder serving the District."
+    "text": "As of 2022, solar energy provided about 3.4% of total U.S. utility-scale electricity (U.S. Energy Information Administration, 2024) Among US cities, Honolulu tops the chart, with per capita solar photovoltaic (PV) capacity installed at 1133 Watts DC/person in 2022. Washington DC was at 10th rank by 2022 (leaping up from 17th in 2018.) (Frontier Group, 2022)\nThe most likely reason behind this boost was DC’s Renewable Portfolio Standards (RPS) policies. RPS policies are regulatory mandates to increase the production of energy from renewable sources, requiring electric utilities to ensure that a specified percentage of the energy they generate or sell comes from renewable sources by a certain date. Despite the lack of a comprehensive federal RPS, state-level mandates have collectively contributed to a significant increase in the country’s renewable energy capacity, transforming the energy landscape and paving the way for a more sustainable future.\nDC’s RPS is one of the country’s most ambitious, as underscored by the Clean Energy DC Omnibus Amendment Act of 2018. This act mandates that 100 percent of the District’s electric supply be sourced from renewable generators by 2032. Additionally, it sets forth a solar “carve-out” requirement that 5.5 percent of the 2032 electric supply must come from in-District solar, with this percentage increasing to 10 percent by 2041. This places the District as the third jurisdiction in the U.S., following Hawai’i and California, to establish a 100 percent renewable energy requirement.\nThe primary mechanism by which the DC Department of Energy and Environment (DOEE) influences the solar market is through Solar Renewable Energy Credits (SRECs) and Alternative Compliance Payments (ACP).\nThere have been several major policy changes in DC that affect solar adoption incentives, as summarized in this RPS report by the DC Public Service Commission (https://dcpsc.org/Orders-and-Regulations/PSC-Reports-to-the-DC-Council/Renewable-Energy-Portfolio-Standard.aspx)"
   },
   {
-    "objectID": "posts/dc_solar_web.html#sample-gganimate-code",
-    "href": "posts/dc_solar_web.html#sample-gganimate-code",
-    "title": "cross_section_models",
-    "section": "",
-    "text": "Show the code\n# Animate the plot\nanim &lt;- p + transition_reveal(date) + \n  enter_grow() +  # Animation for entering points\n  exit_fade() +   # Animation for exiting points\n  ease_aes('cubic-in-out') + # Animation speed\n  labs(title = 'Year: {frame_along}', subtitle = \"Tier-One Renewable Percent\") # Update title with year\n\n# Render the animation\nanimate(anim, duration = 10, fps = 30, width = 800, height = 600, renderer =gifski_renderer())"
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#dc-open-data---buildings-and-solar",
-    "href": "posts/dc_solar_web.html#dc-open-data---buildings-and-solar",
-    "title": "cross_section_models",
-    "section": "",
-    "text": "With the help of DC Open Data’s frequently updated and granular urban data on buildings, it is straightforward to combine these into the largest single-city datasets for almost all of DC’s 110,000 residential buildings.\n\nCAMA\nDC Solar monthly\nNote: Linking these two datasets is more complex than a single merge. The common thing is address, but CAMA doesn’t have address directly. It has the Square Suffix Lot (SSL) number, which identifies the plot of land on which a building sits. Some lots have multiple buildings, and some buildings/complexes span multiple lots.\n\nWe then have a dataset with the below outline\n\n\n\n\n\nSSL\nSTYLE_D\nROOF_D\nNBHDNAME\ncap_kw\nmax_sun_hours\nmin_dc_kwh\n\n\n\n\n4237 0804\n2 Story\nShingle\nWoodridge\n0\n1609.180\n1593.364\n\n\n4194 0035\n2 Story\nSlate/Clay\nMichigan Park\n0\n1523.612\n1496.437\n\n\n3165 0810\n1.5 Story Fin\nShingle\nBrightwood\n6.75\n1583.518\n1564.966\n\n\n5350 0065\n1.5 Story Fin\nShingle\nFort Dupont Park\n2.6\n1621.881\n1614.542\n\n\n3165 0815\n2 Story\nShingle\nBrightwood\n3.25\n1601.201\n1575.480\n\n\n\n\n\n\n\nWhy is this interesting? If you look at this CITE PAPER - ML can reduce ‘SOFT COSTS’"
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#the-dc-solar-market",
-    "href": "posts/dc_solar_web.html#the-dc-solar-market",
+    "objectID": "posts/dc_solar_web.html#the-dc-solar-market---incentives-and-costs",
+    "href": "posts/dc_solar_web.html#the-dc-solar-market---incentives-and-costs",
     "title": "Rooftop solar adoption in Washington DC",
-    "section": "The DC Solar Market",
-    "text": "The DC Solar Market\nIn Washington DC, the average solar panel costs $11,000-$14,000 after federal incentives\nA household in DC can factor in three types of incentives available for a solar installation :\n\nFederal rebates\nSREC prices\nNet metering\n\nThere is another type of indirect incentive, which might function as a ‘stick’ to the above ‘carrots’. This is the Building Energy Benchmarking Policy (BEPS), which aims to identify and impose financial penalties on large buildings (&gt;10,000 sq feet) with greater than average energy consumption\nThe following figures describe the outlook for solar generation in the District:\n\nTarget by 2040 = 665 MW\nTechnical potential in DC = 1200 MW\nAdoption in 2023 = 201 MW\n\nThe above figures are from a report by Synapse Energy Economics, where it also lays out the factors holding back adoption in DC. For now, we zoom in on one particular factor laid out in the report:\n“Given that 60 percent of households in the District are renter-occupied, home ownership and upfront costs are likely strong barriers to solar adoption”"
+    "section": "The DC Solar Market - Incentives and Costs",
+    "text": "The DC Solar Market - Incentives and Costs\nIn Washington DC, the average solar panel costs $11,000-$14,000 after federal incentives\nA household in DC can factor in three types of incentives available for a solar installation :\n\nFederal rebates\nSREC prices\nNet metering\n\nThere is another type of indirect incentive, which might function as a ‘stick’ to the above ‘carrots’. This is the Building Energy Benchmarking Policy (BEPS), which aims to identify and impose financial penalties on large buildings (&gt;10,000 sq feet) with greater than average energy consumption\nThe following figures describe the outlook for solar generation in the District:\n\nTechnical potential = 1200 MW\nTarget by 2040 = 665 MW\nAdoption in 2023 = 201 MW\n\nThe above figures are from a report by Synapse Energy Economics, where it also lays out the factors holding back adoption in DC. For now, we zoom in on one particular factor laid out in the report:\n“Given that 60 percent of households in the District are renter-occupied, home ownership and upfront costs are likely strong barriers to solar adoption”"
   },
   {
-    "objectID": "posts/dc_solar_web.html#get-census-data-using-tidycensus",
-    "href": "posts/dc_solar_web.html#get-census-data-using-tidycensus",
+    "objectID": "posts/dc_solar_web.html#creating-a-building-level-dataset-to-examine-solar-adoption",
+    "href": "posts/dc_solar_web.html#creating-a-building-level-dataset-to-examine-solar-adoption",
     "title": "Rooftop solar adoption in Washington DC",
-    "section": "Get census data using tidyCensus",
-    "text": "Get census data using tidyCensus\n\n\nShow the code\nst_acs &lt;- get_acs(variables = c(total_pop = \"B02001_001E\", \n                                  owner_occupied = \"B25003_002E\",\n                                  total_occupied = \"B25003_001E\"),\n                    geography = \"block group\",\n                    geometry = TRUE,\n                    state = \"DC\", \n                    year = 2019) \n\n\n\nAggregate solar data to the block group level\nWhat does data from the American Community Survey tell us, about what these"
+    "section": "Creating a building-level dataset to examine solar adoption",
+    "text": "Creating a building-level dataset to examine solar adoption\nWith the help of DC Open Data’s frequently updated and granular data on buildings, we can merge data solar and building attributes data for almost all of DC’s &gt;100,000 residential buildings.\n\nDC PSC Monthly Update of Solar generator certification Geocoded dataset of all approved solar panels in Washington DC.\nComputer Assisted Mass Appraisal (CAMA)\nBuilding attributes, sourced from tax records properties in Washington, D.C. Contains data on building attributes.\n\n\n\n\n\n\n\nNote: Merging properties with SSL\n\n\n\nLinking these two datasets is more complex than a single merge. Solar records are given for an address, but CAMA records are linked to Square Suffix Lot (SSL) numbers, which identifies the plot of land on which a building is located. Some lots have multiple buildings, and some buildings/complexes span multiple lots.\n\n\nThe following table shows a small sample of the rows and columns in our resulting dataset.\n\n\n\n\n\nSSL\nSTYLE_D\nROOF_D\nNBHDNAME\ncap_kw\nmax_sun_hours\nmin_dc_kwh\n\n\n\n\n3562 0045\n2 Story\nBuilt Up\nEckington\n0\n1490.292\n1487.965\n\n\n1205 0053\n2 Story\nMetal- Sms\nGeorgetown\n0\n1593.769\n1489.971\n\n\n1029 0182\n2 Story\nMetal- Sms\nOld City 1\n8.68\n1548.044\n1535.967\n\n\n5957 0081\n2 Story\nShingle\nCongress Heights\n9.75\n1594.972\n1590.310\n\n\n4112E 0012\n2 Story\nShingle\nWoodridge\n8.505\n1557.909\n1549.482\n\n\n\n\n\n\n\nTwo variables have been called from the Google Solar API for these building locations:\n\nmax_sun_hours: Maximum number of sunshine hours received per year, by any point on the roof\nmin_dc_kwh: How much sunlight energy the roof captures in DC kWh, assuming a certain minimum number of panels. (This is a transformed variable)"
   },
   {
-    "objectID": "posts/dc_solar_web.html#check-out-this-in-progress-dashboard-here",
-    "href": "posts/dc_solar_web.html#check-out-this-in-progress-dashboard-here",
+    "objectID": "posts/dc_solar_web.html#using-census-data-to-check-the-home-ownership-hypothesis",
+    "href": "posts/dc_solar_web.html#using-census-data-to-check-the-home-ownership-hypothesis",
     "title": "Rooftop solar adoption in Washington DC",
-    "section": "Check out this in-progress dashboard here!",
-    "text": "Check out this in-progress dashboard here!"
+    "section": "Using Census data to check the home-ownership hypothesis",
+    "text": "Using Census data to check the home-ownership hypothesis\nWhat does data from the American Community Survey tell us about the characteristics of high-solar adoption areas? Ideally, we would have joined building-level data of owner vs renter occupation, but in its absence, we can use block-group level data from the ACS 2019 on homeownership rates.\n\nSample code: tidyCensus\n\n\nSample tidyCensus code\nst_acs &lt;- get_acs(variables = c(total_pop = \"B02001_001E\", \n                                  owner_occupied = \"B25003_002E\",\n                                  total_occupied = \"B25003_001E\"),\n                    geography = \"block group\",\n                    geometry = TRUE,\n                    state = \"DC\", \n                    year = 2019) \n\n\n\n\n\n\n\nThe above graph clearly shows that block groups with a higher share of homes inhabited by owners had higher per capita solar capacity, expressed as KiloWatts per 1000 people."
   },
   {
-    "objectID": "posts/dc_solar_web.html#so-what",
-    "href": "posts/dc_solar_web.html#so-what",
-    "title": "cross_section_models",
-    "section": "So what?",
-    "text": "So what?\nHow does it spread - diffusion?\nNREL has created a model, which captures two fundamental dynamics of how solar adoption prooceeds:\n\nPeer adoption/bass diffusion:\nFinancial PV calculations"
+    "objectID": "posts/dc_solar_web.html#spatial-insights",
+    "href": "posts/dc_solar_web.html#spatial-insights",
+    "title": "Rooftop solar adoption in Washington DC",
+    "section": "Spatial insights",
+    "text": "Spatial insights\nThe fact that the solar data has both the exact location and date of solar panel installation, added with DC Open Data’s rich repository of spatial building-level datasets implies that we can drill down at the hyperlocal level for insights in solar adoption patterns.\n\n\n\n\n\n\n\nCheck out this in-progress dashboard here!"
+  },
+  {
+    "objectID": "posts/dc_solar_web.html#next-steps",
+    "href": "posts/dc_solar_web.html#next-steps",
+    "title": "Rooftop solar adoption in Washington DC",
+    "section": "Next steps:",
+    "text": "Next steps:\nNow that the data is consolidated, the next task is to model its diffusion process, and forecast it into the future.\nA popular approach is NREL’s Distributed Renewable Generation model (dGen) model."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Kumar H",
     "section": "",
-    "text": "I am a economist/data scientist with research interests in explainable machine learning, energy and development I am completing a MS in Data Science and Public Policy from Georgetown University, where I currently work as a graduate research assistant at the Massive Data Institute, where my research interests and experience are focused on energy, climate and the application of deep learning and Large Language Models (LLMs) to policy issues.\nPrior to this, I have an M.Phil in Economics from the Center for Development Studies, India, and experience working with economists in Education and Covid policy."
+    "text": "I am a data scientist with experience in economics and policy research.\nAs of Spring 2024, I am graduating with a MS in Data Science and Public Policy from Georgetown University, Washington DC; where I currently work as a graduate research assistant at the Massive Data Institute. My research interests and project experience are focused on energy, climate and the application of deep learning and Large Language Models (LLMs) to policy issues.\nJan 2024: Check out the Wetland Impact Tracker we designed in collaboration with Atlas Public Policy and EPIC!\nCheck out my portfolio and research projects on the other pages. [This site is currently under improvement, and more information will be added.]"
   },
   {
     "objectID": "index.html#bio",
     "href": "index.html#bio",
     "title": "Kumar H",
     "section": "",
-    "text": "I am a economist/data scientist with research interests in explainable machine learning, energy and development I am completing a MS in Data Science and Public Policy from Georgetown University, where I currently work as a graduate research assistant at the Massive Data Institute, where my research interests and experience are focused on energy, climate and the application of deep learning and Large Language Models (LLMs) to policy issues.\nPrior to this, I have an M.Phil in Economics from the Center for Development Studies, India, and experience working with economists in Education and Covid policy."
+    "text": "I am a data scientist with experience in economics and policy research.\nAs of Spring 2024, I am graduating with a MS in Data Science and Public Policy from Georgetown University, Washington DC; where I currently work as a graduate research assistant at the Massive Data Institute. My research interests and project experience are focused on energy, climate and the application of deep learning and Large Language Models (LLMs) to policy issues.\nJan 2024: Check out the Wetland Impact Tracker we designed in collaboration with Atlas Public Policy and EPIC!\nCheck out my portfolio and research projects on the other pages. [This site is currently under improvement, and more information will be added.]"
+  },
+  {
+    "objectID": "index.html#contact-information",
+    "href": "index.html#contact-information",
+    "title": "Kumar H",
+    "section": "Contact Information",
+    "text": "Contact Information\nEmail: hk939@georgetown.edu, hkumar747@gmail.com\nGithub: hkumar747\nLinkedin: Profile"
   },
   {
     "objectID": "about.html",
@@ -151,7 +144,7 @@
     "href": "posts/Optimization_Kentucky_retrofit.html#model-formulation",
     "title": "BlocPower Report",
     "section": "3.1 Model Formulation",
-    "text": "3.1 Model Formulation\n\nGoogle Doc: Google Doc Link\nPaper: ScienceDirect Paper Link\n\n\n3.1.1 Sets and Indices\n\n\\(i \\in T\\): Index and set of potential buildings to weatherize.\n\n\n\n3.1.2 Parameters\n\n\\(c_i \\in \\mathbb{R}_+\\): The cost of weatherizing building \\(i\\).\n\\(e_i \\in \\mathbb{R}_+\\): The energy use of building \\(i\\).\n\n\n\n3.1.3 Decision Variables\n\n\\(w_i \\in [0,1]\\): This variable is equal to 1 if building \\(i\\) is weatherized; and 0 otherwise.\n\n\n\n3.1.4 Objective Function\n\nEnergy savings: We seek to maximize the total energy savings from all buildings.\n\nMaximize \\(Z = \\sum_{i \\in T} e_i \\cdot w_i\\)` \\((1)\\)\n\n\n\n\n3.1.5 Constraints\n\nBudget: We need to ensure that the total cost of interventions does not exceed the allocated budget.\n\n\\(\\sum_{i \\in T} c_i \\cdot w_i \\leq \\text{budget}\\) \\((2)\\)\nBudget = USD 3,000,000\n\n\n\n\n3.1.6 Parameters\n\nCosts: The complication is that the cost \\(c_i\\) and energy savings \\(e_i\\) is different for each building, based on the chosen intervention and the building’s own characteristics. Installing a heat pump or weatherizing in a gas-heating building of 6,000 sq. ft. would have a different cost from installing the same equipment in an oil-heating building of 3,000 sq. ft. Depending on local labor and material costs, even the exact same project on comparable buildings would have different costs in Wichita and Ithaca.\n\n\n3.1.6.1 Industry experts have the following input:\n\nEngie: ‘Because of the wide variations, a heuristic approach is probably the best you can do.’\nBlocPower: ‘The cost estimation is a process which requires local data, personnel hours and itself has an expense associated with it’\n\n\n\n\n3.1.7 Energy savings:\n\nThe original paper by Heleno et al (2022) seems to use a heuristic approach, by calculating cost and savings factors from the Weatherization Assistance Program (WAP) for different types of building archetypes. ScienceDirect Paper Link\n\nFor this current example, we assume the following factors. So, weatherizing a gas-heated building reduces energy use by 4% and costs 2000 USD.\n\n3.1.7.1 Energy savings factors:\n\nGas Buildings = 0.96\nOil Buildings = 0.98\n\n\n\n3.1.7.2 Cost:\n\nGas buildings = 2000\nOil Buildings = 3000\n\nMultiply the above factors with the cost and energy columns to obtain 2 new columns per building, $e_i$ (energy savings after weatherization) and $c_i$ (cost of weatherization).\nhttps://www.sciencedirect.com/science/article/pii/S0306261922010510\nEnergy savings achieved: 61656.41 GJ Cost of intervention: USD 3000000 Buildings weatherized: 1442 Visualize recommendations on map\n\n\nCode\n# gdf = gdf.round(2)\n# # merge to optimized dataframe\n# gdf = gdf.merge(test, left_on='building_id', right_on='building_id', how='inner')\n\n# Convert the DataFrame to a GeoDataFrame\ngdf = gpd.GeoDataFrame(test, geometry='geometry', crs='epsg:4326')\n\n# create retrofit column\n# gdf['Retrofit?'] = gdf['opt'].apply(lambda x: 'YES' if x == 1 else 'NO')\n\n#round energy savings column\n# gdf['energy_savings'] = gdf['energy_savings'].round(3)\n\nm1 = gdf.explore(\"energy_use_intensity\", #tooltip=False, #categorical=True, \n                 tooltip=[\"address\", \"area_sq_ft\", \"energy_use_intensity\",\n                        \"building_type\", \"heating_fuel_type\"])\n\n # Set `preferCanvas` to optimize performance of map\nm1.options[\"preferCanvas\"] = True\n\n#set a tile layer - OSM\nfolium.TileLayer(\"OpenStreetMap\").add_to(m1)\nm1\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\n\n\nCode\nm1.save\n\n\n&lt;bound method Element.save of &lt;folium.folium.Map object at 0x000001CC2DB231C0&gt;&gt;"
+    "text": "3.1 Model Formulation\n\nGoogle Doc: Google Doc Link\nPaper: ScienceDirect Paper Link\n\n\n3.1.1 Sets and Indices\n\n\\(i \\in T\\): Index and set of potential buildings to weatherize.\n\n\n\n3.1.2 Parameters\n\n\\(c_i \\in \\mathbb{R}_+\\): The cost of weatherizing building \\(i\\).\n\\(e_i \\in \\mathbb{R}_+\\): The energy use of building \\(i\\).\n\n\n\n3.1.3 Decision Variables\n\n\\(w_i \\in [0,1]\\): This variable is equal to 1 if building \\(i\\) is weatherized; and 0 otherwise.\n\n\n\n3.1.4 Objective Function\n\nEnergy savings: We seek to maximize the total energy savings from all buildings.\n\nMaximize \\(Z = \\sum_{i \\in T} e_i \\cdot w_i\\)` \\((1)\\)\n\n\n\n\n3.1.5 Constraints\n\nBudget: We need to ensure that the total cost of interventions does not exceed the allocated budget.\n\n\\(\\sum_{i \\in T} c_i \\cdot w_i \\leq \\text{budget}\\) \\((2)\\)\nBudget = USD 3,000,000\n\n\n\n\n3.1.6 Parameters\n\nCosts: The complication is that the cost \\(c_i\\) and energy savings \\(e_i\\) is different for each building, based on the chosen intervention and the building’s own characteristics. Installing a heat pump or weatherizing in a gas-heating building of 6,000 sq. ft. would have a different cost from installing the same equipment in an oil-heating building of 3,000 sq. ft. Depending on local labor and material costs, even the exact same project on comparable buildings would have different costs in Wichita and Ithaca.\n\n\n3.1.6.1 Industry experts have the following input:\n\nEngie: ‘Because of the wide variations, a heuristic approach is probably the best you can do.’\nBlocPower: ‘The cost estimation is a process which requires local data, personnel hours and itself has an expense associated with it’\n\n\n\n\n3.1.7 Energy savings:\n\nThe original paper by Heleno et al (2022) seems to use a heuristic approach, by calculating cost and savings factors from the Weatherization Assistance Program (WAP) for different types of building archetypes. ScienceDirect Paper Link\n\nFor this current example, we assume the following factors. So, weatherizing a gas-heated building reduces energy use by 4% and costs 2000 USD.\n\n3.1.7.1 Energy savings factors:\n\nGas Buildings = 0.96\nOil Buildings = 0.98\n\n\n\n3.1.7.2 Cost:\n\nGas buildings = 2000\nOil Buildings = 3000\n\nMultiply the above factors with the cost and energy columns to obtain 2 new columns per building, $e_i$ (energy savings after weatherization) and $c_i$ (cost of weatherization).\nhttps://www.sciencedirect.com/science/article/pii/S0306261922010510\nEnergy savings achieved: 61656.41 GJ Cost of intervention: USD 3000000 Buildings weatherized: 1442 Visualize recommendations on map\n\n\nCode\n# gdf = gdf.round(2)\n# # merge to optimized dataframe\n# gdf = gdf.merge(test, left_on='building_id', right_on='building_id', how='inner')\n\n# Convert the DataFrame to a GeoDataFrame\ngdf = gpd.GeoDataFrame(test, geometry='geometry', crs='epsg:4326')\n\n# create retrofit column\n# gdf['Retrofit?'] = gdf['opt'].apply(lambda x: 'YES' if x == 1 else 'NO')\n\n#round energy savings column\n# gdf['energy_savings'] = gdf['energy_savings'].round(3)\n\nm1 = gdf.explore(\"energy_use_intensity\", #tooltip=False, #categorical=True, \n                 tooltip=[\"address\", \"area_sq_ft\", \"energy_use_intensity\",\n                        \"building_type\", \"heating_fuel_type\"])\n\n # Set `preferCanvas` to optimize performance of map\nm1.options[\"preferCanvas\"] = True\n\n#set a tile layer - OSM\nfolium.TileLayer(\"OpenStreetMap\").add_to(m1)\nm1\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\n\n\nCode\nm1.save\n\n\n&lt;bound method Element.save of &lt;folium.folium.Map object at 0x000001D30A88F370&gt;&gt;"
   },
   {
     "objectID": "posts/Optimization_Kentucky_retrofit.html#h3",
@@ -159,82 +152,5 @@
     "title": "BlocPower Report",
     "section": "3.2 H3",
     "text": "3.2 H3\n\n\nCode\nfrom h3 import h3\n\n\ndef update_map(h3_level=10):\n    def lat_lng_to_h3(row):\n        return h3.geo_to_h3(row.geometry.y, row.geometry.x, h3_level)\n\n    gdf['h3'] = gdf.apply(lat_lng_to_h3, axis=1)\n\n    counts = gdf[gdf['energy_use_intensity'] &gt; np.median(gdf['energy_use_intensity'])].groupby('h3').size().reset_index(name='count')\n    \n    def add_geometry(row):\n        points = h3.h3_to_geo_boundary(row['h3'], True)\n        return Polygon(points)\n\n    counts['geometry'] = counts.apply(add_geometry, axis=1)\n    ky_hex = gpd.GeoDataFrame(counts, geometry='geometry', crs='EPSG:4326')\n\n    m = folium.Map(location=[37.3, -87.56], zoom_start=12)\n\n    colormap = linear.YlOrRd_09.scale(ky_hex['count'].min(), ky_hex['count'].max())\n\n    folium.GeoJson(\n        ky_hex,\n        name='geojson',\n        style_function=lambda feature: {\n            'fillColor': colormap(feature['properties']['count']),\n            'color': 'black',\n            'weight': .8,\n            'fillOpacity': 0.7,\n        },\n        tooltip=folium.GeoJsonTooltip(fields=['count'])\n    ).add_to(m)\n\n    colormap.add_to(m)\n\n    return m\n\nupdate_map(h3_level=9)\n\n\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook"
-  },
-  {
-    "objectID": "research.html#co-authored",
-    "href": "research.html#co-authored",
-    "title": "Research",
-    "section": "Co-Authored",
-    "text": "Co-Authored\n\nIndian state-level policy responses to Covid-19 during the second wave\nNagesh, R., Nataraj, M., Kumar, H., Hale, T., Petherick, A., & Phillips, T. (2022). Blavatnik School of Government Working Paper, University of Oxford (BSG-WP-2022/049)\n“This paper tracks the evolution of the Indian government policy response to the coronavirus pandemic from January 2021 to September 2022… for Indian sub-national jurisdictions.”\n\n\n\nCase-stringency plot\n\n\n\n\nThe Effects of State and Central COVID-19 Responses on Mobility in India\nKumar H, Nataraj M, Kundu S. (2022) Eur J Dev Res. 2022;34(5):2463-2492.\nPart of the Nature Covid-19 Public Health Emergency collection, hosted as part of the National Library of Medicine."
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#a-building-level-dataset-to-examine-solar-adoption",
-    "href": "posts/dc_solar_web.html#a-building-level-dataset-to-examine-solar-adoption",
-    "title": "cross_section_models",
-    "section": "",
-    "text": "With the help of DC Open Data’s frequently updated and granular data on buildings, we can merge data solar and building attributes data for almost all of DC’s &gt;100,000 residential buildings.\n\nDC PSC Monthly Update of Solar generator certification Geocoded dataset of all approved solar panels in Washington DC.\nComputer Assisted Mass Appraisal (CAMA)\nBuilding attributes, sourced from tax records properties in Washington, D.C. Contains data on building attributes.\n\n\n\n\n\n\n\nNote: Merging properties with SSL\n\n\n\nLinking these two datasets is more complex than a single merge. Solar records are given for an address, but CAMA records are linked to Square Suffix Lot (SSL) numbers, which identifies the plot of land on which a building is located. Some lots have multiple buildings, and some buildings/complexes span multiple lots.\n\n\nThe following table shows a small sample of the rows and columns in our resulting dataset.\n\n\n\n\n\nSSL\nSTYLE_D\nROOF_D\nNBHDNAME\ncap_kw\nmax_sun_hours\nmin_dc_kwh\n\n\n\n\n5097 0019\n2 Story\nShingle\nDeanwood\n0\n1537.313\n1516.641\n\n\n5367 0037\nSplit Foyer\nShingle\nFort Dupont Park\n0\n1540.410\n1533.653\n\n\n4048 0045\n2 Story\nBuilt Up\nBrentwood\n4.68\n1459.717\n1400.494\n\n\n3047 0074\n2 Story\nMetal- Sms\nColumbia Heights\n11.375\n1592.315\n1570.736\n\n\n2588 0138\n2 Story\nBuilt Up\nMount Pleasant\n4.68\n1582.153\n1518.513\n\n\n\n\n\n\n\nWhy is this interesting? If you look at this CITE PAPER - ML can reduce ‘SOFT COSTS’"
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#next-steps",
-    "href": "posts/dc_solar_web.html#next-steps",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "Next steps:",
-    "text": "Next steps:\nNow that the data is consolidated, the next task is to model its diffusion process, and forecast it into the future.\nA popular approach is NREL’s Distributed Renewable Generation model (dGen) model."
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#building-a-building-level-dataset-to-examine-solar-adoption",
-    "href": "posts/dc_solar_web.html#building-a-building-level-dataset-to-examine-solar-adoption",
-    "title": "Rooftop solar adoption Washington DC",
-    "section": "Building a building-level dataset to examine solar adoption",
-    "text": "Building a building-level dataset to examine solar adoption\nWith the help of DC Open Data’s frequently updated and granular data on buildings, we can merge data solar and building attributes data for almost all of DC’s &gt;100,000 residential buildings.\n\nDC PSC Monthly Update of Solar generator certification Geocoded dataset of all approved solar panels in Washington DC.\nComputer Assisted Mass Appraisal (CAMA)\nBuilding attributes, sourced from tax records properties in Washington, D.C. Contains data on building attributes.\n\n\n\n\n\n\n\nNote: Merging properties with SSL\n\n\n\nLinking these two datasets is more complex than a single merge. Solar records are given for an address, but CAMA records are linked to Square Suffix Lot (SSL) numbers, which identifies the plot of land on which a building is located. Some lots have multiple buildings, and some buildings/complexes span multiple lots.\n\n\nThe following table shows a small sample of the rows and columns in our resulting dataset.\n\n\n\n\n\nSSL\nSTYLE_D\nROOF_D\nNBHDNAME\ncap_kw\nmax_sun_hours\nmin_dc_kwh\n\n\n\n\n2804 0110\n2 Story\nSlate/Clay\n16th Street Heights\n0\n1620.957\n1619.300\n\n\n1282 0228\n2 Story\nMetal- Sms\nGeorgetown\n0\n1563.879\n1527.644\n\n\n5141 0804\n3 Story\nShingle\nDeanwood\n5.83\n1233.989\n1134.466\n\n\n2591 0755\n3 Story\nMetal- Sms\nMount Pleasant\n7.03\n1548.676\n1530.362\n\n\n3291 0066\n2 Story\nBuilt Up\nBrightwood\n4.5\n1573.791\n1488.971\n\n\n\n\n\n\n\nWhy is this interesting? If you look at this CITE PAPER - ML can reduce ‘SOFT COSTS’"
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#ownership-correlates-with-solar-adoption.",
-    "href": "posts/dc_solar_web.html#ownership-correlates-with-solar-adoption.",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "Ownership correlates with solar adoption.",
-    "text": "Ownership correlates with solar adoption."
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#todo-map-layer-different",
-    "href": "posts/dc_solar_web.html#todo-map-layer-different",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "TODO map layer different",
-    "text": "TODO map layer different"
-  },
-  {
-    "objectID": "index.html#contact-information",
-    "href": "index.html#contact-information",
-    "title": "Kumar H",
-    "section": "Contact Information",
-    "text": "Contact Information\nEmail: hk939@georgetown.edu, hkumar747@gmail.com\nGithub: hkumar747\nLinkedin: Profile"
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#creating-a-building-level-dataset-to-examine-solar-adoption",
-    "href": "posts/dc_solar_web.html#creating-a-building-level-dataset-to-examine-solar-adoption",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "Creating a building-level dataset to examine solar adoption",
-    "text": "Creating a building-level dataset to examine solar adoption\nWith the help of DC Open Data’s frequently updated and granular data on buildings, we can merge data solar and building attributes data for almost all of DC’s &gt;100,000 residential buildings.\n\nDC PSC Monthly Update of Solar generator certification Geocoded dataset of all approved solar panels in Washington DC.\nComputer Assisted Mass Appraisal (CAMA)\nBuilding attributes, sourced from tax records properties in Washington, D.C. Contains data on building attributes.\n\n\n\n\n\n\n\nNote: Merging properties with SSL\n\n\n\nLinking these two datasets is more complex than a single merge. Solar records are given for an address, but CAMA records are linked to Square Suffix Lot (SSL) numbers, which identifies the plot of land on which a building is located. Some lots have multiple buildings, and some buildings/complexes span multiple lots.\n\n\nThe following table shows a small sample of the rows and columns in our resulting dataset.\n\n\n\n\n\nSSL\nSTYLE_D\nROOF_D\nNBHDNAME\ncap_kw\nmax_sun_hours\nmin_dc_kwh\n\n\n\n\n1679 0006\n2 Story\nSlate/Clay\nAmerican University\n0\n1176.855\n1132.760\n\n\n5626 0004\n2 Story\nShingle\nHillcrest\n0\n1354.962\n1300.345\n\n\n3325 0012\n2 Story\nMetal- Sms\nPetworth\n4.8\n1592.104\n1539.959\n\n\n3150 0048\n2 Story\nMetal- Sms\nPetworth\n3.12\n1561.584\n1521.092\n\n\n0914 0033\n2 Story\nMetal- Sms\nOld City 1\n12.4\nNA\nNA\n\n\n\n\n\n\n\nThe fields max_sun_hours is the maximum hours of sunlight the building receives in a year, obtained from the Google Solar API."
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#the-dc-solar-market---incentives-and-costs",
-    "href": "posts/dc_solar_web.html#the-dc-solar-market---incentives-and-costs",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "The DC Solar Market - Incentives and Costs",
-    "text": "The DC Solar Market - Incentives and Costs\nIn Washington DC, the average solar panel costs $11,000-$14,000 after federal incentives\nA household in DC can factor in three types of incentives available for a solar installation :\n\nFederal rebates\nSREC prices\nNet metering\n\nThere is another type of indirect incentive, which might function as a ‘stick’ to the above ‘carrots’. This is the Building Energy Benchmarking Policy (BEPS), which aims to identify and impose financial penalties on large buildings (&gt;10,000 sq feet) with greater than average energy consumption\nThe following figures describe the outlook for solar generation in the District:\n\nTechnical potential = 1200 MW\nTarget by 2040 = 665 MW\nAdoption in 2023 = 201 MW\n\nThe above figures are from a report by Synapse Energy Economics, where it also lays out the factors holding back adoption in DC. For now, we zoom in on one particular factor laid out in the report:\n“Given that 60 percent of households in the District are renter-occupied, home ownership and upfront costs are likely strong barriers to solar adoption”"
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#using-census-data-to-check-the-home-ownership-hypothesis",
-    "href": "posts/dc_solar_web.html#using-census-data-to-check-the-home-ownership-hypothesis",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "Using Census data to check the home-ownership hypothesis",
-    "text": "Using Census data to check the home-ownership hypothesis\nWhat does data from the American Community Survey tell us about the characteristics of high-solar adoption areas? Ideally, we would have joined building-level data of owner vs renter occupation, but in its absence, we can use block-group level data from the ACS 2019 on homeownership rates.\n\nSample code: tidyCensus\n\n\nSample tidyCensus code\nst_acs &lt;- get_acs(variables = c(total_pop = \"B02001_001E\", \n                                  owner_occupied = \"B25003_002E\",\n                                  total_occupied = \"B25003_001E\"),\n                    geography = \"block group\",\n                    geometry = TRUE,\n                    state = \"DC\", \n                    year = 2019) \n\n\n\n\n\n\n\nThe above graph clearly shows that block groups with a higher share of homes inhabited by owners had higher per capita solar capacity, expressed as KiloWatts per 1000 people."
-  },
-  {
-    "objectID": "posts/dc_solar_web.html#spatial-insights",
-    "href": "posts/dc_solar_web.html#spatial-insights",
-    "title": "Rooftop solar adoption in Washington DC",
-    "section": "Spatial insights",
-    "text": "Spatial insights\nThe fact that the solar data has both the exact location and date of solar panel installation, added with DC Open Data’s rich repository of spatial building-level datasets implies that we can drill down at the hyperlocal level for insights in solar adoption patterns.\n\n\n\n\n\n\n\nCheck out this in-progress dashboard here!"
   }
 ]
