@@ -4,22 +4,19 @@ title: "Kumar H"
 
 ## Bio
 I am a economist/data scientist with research interests in explainable machine learning, energy and development
-I am completing a MS in Data Science and Public Policy from Georgetown University, and I have a M.Phil in Economics from 
-Centre for Development Studies, where my thesis focused on urban infrastructure growth and its effects on the knowledge economy in India.
+I am completing a MS in Data Science and Public Policy from Georgetown University, where I currently work as a graduate research assistant at the 
+[Massive Data Institute](https://mdi.georgetown.edu/), where my research interests and experience are focused 
+on energy, climate and the application of deep learning and Large Language Models (LLMs) to policy issues.
 
-I currently work as a graduate research assistant at the Massive Data Institute.
-
-Check out the following links:
-
-- **Resume**
-
-- **Portfolio**
-
-- **Publications**
+Prior to this, I have an M.Phil in Economics from the Center for Development Studies, India, and experience working with economists in Education
+and Covid policy.
 
 
-Contact Information
 
-Email: hk939@georgetown.edu
+## Contact Information
 
-Github: 
+**Email**: hk939@georgetown.edu, hkumar747@gmail.com
+
+**Github**: [hkumar747](https://github.com/hkumar747)
+
+**Linkedin**: [Profile](https://www.linkedin.com/in/himangshu-kumar/)

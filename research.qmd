@@ -2,10 +2,45 @@
 title: Research
 ---
 
-# Publications
+As a quantitative researcher and data analyst, I have collaborated with economists and policy researchers
+to author - and provide research assistance for - working papers and publications peer-reviewed journals.
 
-I have worked as author for these
+## Co-Authored
+
+### [Indian state-level policy responses to Covid-19 during the second wave](https://www.bsg.ox.ac.uk/research/publications/indian-state-level-policy-responses-covid-19-during-second-wave)
+
+Nagesh, R., Nataraj, M., **Kumar, H.**, Hale, T., Petherick, A., & Phillips, T. (2022). 
+Blavatnik School of Government Working Paper, University of Oxford (BSG-WP-2022/049)
+
+"This paper tracks the evolution of the Indian government policy response to the coronavirus pandemic from January 2021 to
+ September 2022... for Indian sub-national jurisdictions."
+
+![Case-stringency plot](images/bsg3.png){width=60%}
 
 
-Research Associate for these
+### [The Effects of State and Central COVID-19  Responses on Mobility in India](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8441042/)
+
+**Kumar H**, Nataraj M, Kundu S. (2022) 
+*Eur J Dev Res. 2022;34(5):2463-2492.*
+
+Part of the Nature Covid-19 Public Health Emergency collection, hosted as part of the National Library of Medicine.
+---
+
+
+## Research assistance
+
+### [Fostering early childhood development: Evidence from Tanzania](https://doi.org/10.1016/j.worlddev.2023.106335)
+
+Margaret Leighton, Anitha Martine, Julius Massaga. *Economics of Education Review, 2023*
+
+**Assistance**: Data analysis and GIS analysis
+
+![Treatment/control map](images/tnz_map.png){width=40%}
+
+
+### [Decentralization: Evidence from an intervention in local governance](https://www.st-andrews.ac.uk/~wwwecon/mysubmit/pdf-archive/4/2206.pdf)
+
+Kartika Bhatia, Margaret Leighton. *University of St. Andrews, School of Economics and Finance Discussion Paper No. 2206*
+
+**Assistance**: Data analysis, reporting, survey design and field experience in piloting one of Asia's largest non-governmental household survey at the time.
 
