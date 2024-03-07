@@ -552,11 +552,13 @@ Check out the full empirical modeling here [Coming Soon].
 ### 2. Agent based models: NREL dGen 
 
 The National Renewable Energy Lab's [Distributed Generation Market Demand (dGen)](https://github.com/NREL/dgen?tab=readme-ov-file) model is defined as:
+
 >
  "Statistically representative residential and commercial agents are ingested by the model and used to forecast PV adoption based on user specified configurations like electricity rate prices, electricity load growth, solar resource factors, and much more."
 >
 
-Alipour et al (2021) describe 
+Alipour et al (2021) describe:
+
 > 
 self-governing households at the bottom of a social
  phenomenon where each decides heterogeneously and heuristi
