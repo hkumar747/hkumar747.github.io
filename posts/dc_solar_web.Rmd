@@ -336,20 +336,131 @@ Two variables have been called from the [Google Solar API](https://developers.go
 
 - `max_sun_hours`: Maximum number of sunshine hours received per year, by any point on the roof
 
-- `min_dc_kwh`: How much sunlight energy the roof captures in DC kWh, assuming a certain minimum number of panels. (This is a transformed variable)
+- `min_dc_kwh`: How much sunlight energy the roof captures in (direct current) DC kWh, assuming a certain minimum number of panels. (This is a transformed variable)
+
+The above example illustrates the fundamental prediction problem facing us - will these buildings adopt?
+
+They seem to be as suitable as the buildings in the bottom 3 rows, receiving high amounts of annual sunlight (from the supply side).
 
 
 
+The fact that the solar data has both the exact location and date of solar panel installation, added with DC Open Data's rich repository
+of spatial building-level datasets implies that we can drill down at the hyperlocal level for insights in solar adoption patterns.
 
 
-## Using Census data to check the home-ownership hypothesis
+```{r, echo=FALSE}
+library(leaflet)
+library(RColorBrewer)
 
-What does data from the American Community Survey tell us about the characteristics of high-solar adoption areas?
+ward_data <- readRDS("data/ward_solar.rds")
+zip_data <- readRDS("data/zipcode_solar.rds")
+solar_build <- readRDS("data/solar_build.rds")
+
+# Check the spatial level and generate the map accordingly
+pal <- colorNumeric(palette = "YlOrRd", domain = data$total_capacity_mw)
+  
+# map <- leaflet(zip_data) %>%
+#     addProviderTiles(providers$CartoDB.Positron) %>%
+#     addPolygons(
+#       layerId = ~NAME,
+#       fillColor = ~pal(total_capacity_mw),
+#       color = "#444444",
+#       weight = 1,
+#       smoothFactor = 0.5,
+#       popup = ~paste("Zip/Ward:", NAME,
+#                      "<br>Total Capacity MW:", total_capacity_mw,
+#                      "<br>Percentage Solar:", perc_solar),
+#       highlightOptions = highlightOptions(weight = 2, 
+#                                           color = "white",
+#                                           bringToFront = TRUE))
+
+# print(map)
+
+########################################################3
+## building
+
+spatialLevel <- "build" # or "zipcode"
+# Calculate quantiles for `Capacity (MW)`
+solar_build$`Capacity (KW)` <- solar_build$`Capacity (MW)`*1000
+quantiles <- quantile(solar_build$`Capacity (KW)`, probs = c(0.01, 0.95))
+
+# Use the quantiles to set the domain for colorNumeric
+pal <- colorNumeric(palette = "YlOrRd", domain = c(quantiles[1], quantiles[2]))
+
+# Generate the map with adjusted zoom level and quantile-based color scaling
+map <- leaflet(solar_build) %>%
+    addProviderTiles(providers$CartoDB.Positron) %>%
+    addPolygons(
+      layerId = ~Number,
+      fillColor = ~pal(`Capacity (KW)`),
+      color = "#444444",
+      weight = 1,
+      smoothFactor = 0.5,
+      popup = ~paste("Address:", `Facility Address`,
+                     "<br>Total Capacity (KW):", `Capacity (KW)`
+                     ),
+      highlightOptions = highlightOptions(weight = 2, color = "white", bringToFront = TRUE)
+    ) %>%
+    setView(lng = -77.04026, lat = 38.93215, zoom = 16) # Adjusted zoom level
+
+# Add a mini-map with the specified position
+map %>% addMiniMap(tiles = providers$CartoDB.Positron,
+                   toggleDisplay = TRUE,
+                   position = "bottomright")
+
+# <iframe height="400" width="100%" frameborder="yes" src="https://hk939.shinyapps.io/dc_solar_shiny_fnl/"> </iframe>
+
+print(map)
+
+```
+
+
+
+## Modeling paradigms for solar adoption:
+
+Now that the data is consolidated, the next task is to model its diffusion process, and forecast it into the future.
+
+A popular approach is NREL's Distributed Renewable Generation model (`dGen`) model.
+
+
+In a review of around 200 papers, Alipour et al (2021) found the types of modeling approaches:
+
+- **Qualitative: 8.2%**
+
+- **Statistical analysis : 56.7%**
+
+- **Simulation-based (ABMs, spatial, diffusion): 35.1%**
+
+
+### 1. Statistical approaches
+
+
+The variables must account for these factors:
+
+- Spatial similarity or diffusion frameworks
+
+- Potential generation (revealed by the Google Solar API)
+
+- Actual energy use: This is the most difficult to get. Closest we can get is energy expenditures, and that only exists.
+
+Techniques:
+
+1. OLS and panel regressions
+2. Spatial regression models
+3. Tree-based estimation (XGBoost)
+4. Graph learning
+
+Synapse Inc.(2020) mentions that the high percentage of renters in the district means the incentive for households to spend on solar installation is low.
+
+As a warm-up empirical test, let's test this out using data from the American Community Survey (ACS) 2020?
+
+### Example: Using Census data to check the relation between home-ownership and solar capacity added
+
 Ideally, we would have joined building-level data of owner vs renter occupation, but in its absence, we can use **block-group** level data
-from the ACS 2019 on homeownership rates. 
+from the ACS 2019 on homeownership rates. What does the ACS 2019 show about the characteristics of high-solar adoption areas?
 
 
-#### Sample code: `tidyCensus`
+**Sample code: `tidyCensus`**
 
 ```{r, echo=TRUE, eval=FALSE}
 #| code-fold: true
@@ -363,6 +474,7 @@ st_acs <- get_acs(variables = c(total_pop = "B02001_001E",
                     state = "DC", 
                     year = 2019) 
 ```
+
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, results=FALSE}
@@ -435,89 +547,23 @@ ggplot(quantile_avgs, aes(x = as.factor(quantile), y = cap_kw_pc_1k)) +
 The above graph clearly shows that block groups with a higher share of homes inhabited by owners had higher per capita solar capacity,
 expressed as KiloWatts per 1000 people.
 
+Check out the full empirical modeling here [Coming Soon].
 
+### 2. Agent based models: NREL dGen 
 
-## Spatial insights
+The National Renewable Energy Lab's [Distributed Generation Market Demand (dGen)](https://github.com/NREL/dgen?tab=readme-ov-file) model is defined as:
+>
+ "Statistically representative residential and commercial agents are ingested by the model and used to forecast PV adoption based on user specified configurations like electricity rate prices, electricity load growth, solar resource factors, and much more."
+>
 
+Alipour et al (2021) describe 
+> 
+self-governing households at the bottom of a social
+ phenomenon where each decides heterogeneously and heuristi
+cally over time and space, but their aggregated decisions produce
+ macro outcomes 
+>
 
-The fact that the solar data has both the exact location and date of solar panel installation, added with DC Open Data's rich repository
-of spatial building-level datasets implies that we can drill down at the hyperlocal level for insights in solar adoption patterns.
+The model is available open-source on Github (linked above) as a deployable docker container on Github. 
 
-
-```{r, echo=FALSE}
-library(leaflet)
-library(RColorBrewer)
-
-ward_data <- readRDS("data/ward_solar.rds")
-zip_data <- readRDS("data/zipcode_solar.rds")
-solar_build <- readRDS("data/solar_build.rds")
-
-# Check the spatial level and generate the map accordingly
-pal <- colorNumeric(palette = "YlOrRd", domain = data$total_capacity_mw)
-  
-# map <- leaflet(zip_data) %>%
-#     addProviderTiles(providers$CartoDB.Positron) %>%
-#     addPolygons(
-#       layerId = ~NAME,
-#       fillColor = ~pal(total_capacity_mw),
-#       color = "#444444",
-#       weight = 1,
-#       smoothFactor = 0.5,
-#       popup = ~paste("Zip/Ward:", NAME,
-#                      "<br>Total Capacity MW:", total_capacity_mw,
-#                      "<br>Percentage Solar:", perc_solar),
-#       highlightOptions = highlightOptions(weight = 2, 
-#                                           color = "white",
-#                                           bringToFront = TRUE))
-
-# print(map)
-
-########################################################3
-## building
-
-spatialLevel <- "build" # or "zipcode"
-# Calculate quantiles for `Capacity (MW)`
-solar_build$`Capacity (KW)` <- solar_build$`Capacity (MW)`*1000
-quantiles <- quantile(solar_build$`Capacity (KW)`, probs = c(0.01, 0.95))
-
-# Use the quantiles to set the domain for colorNumeric
-pal <- colorNumeric(palette = "YlOrRd", domain = c(quantiles[1], quantiles[2]))
-
-# Generate the map with adjusted zoom level and quantile-based color scaling
-map <- leaflet(solar_build) %>%
-    addProviderTiles(providers$CartoDB.Positron) %>%
-    addPolygons(
-      layerId = ~Number,
-      fillColor = ~pal(`Capacity (KW)`),
-      color = "#444444",
-      weight = 1,
-      smoothFactor = 0.5,
-      popup = ~paste("Address:", `Facility Address`,
-                     "<br>Total Capacity (KW):", `Capacity (KW)`
-                     ),
-      highlightOptions = highlightOptions(weight = 2, color = "white", bringToFront = TRUE)
-    ) %>%
-    setView(lng = -77.04026, lat = 38.93215, zoom = 16) # Adjusted zoom level
-
-# Add a mini-map with the specified position
-map %>% addMiniMap(tiles = providers$CartoDB.Positron,
-                   toggleDisplay = TRUE,
-                   position = "bottomright")
-
-print(map)
-
-```
-
-
-
-
-### Check out this in-progress dashboard here!
-
-<iframe height="400" width="100%" frameborder="yes" src="https://hk939.shinyapps.io/dc_solar_shiny_fnl/"> </iframe>
-
-
-## Next steps:
-
-Now that the data is consolidated, the next task is to model its diffusion process, and forecast it into the future.
-
-A popular approach is NREL's Distributed Renewable Generation model (`dGen`) model.
+Do we use the model off the shelf, or do we tweak and adapt it to our case? Stay tuned for the next post! (COMING SOON).
